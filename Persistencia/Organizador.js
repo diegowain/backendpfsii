@@ -1,7 +1,7 @@
-import Categoria from "../Modelo/categoria.js";
+import Organizador from "../Modelo/Organizador.js";
 import conectar from "./conexao.js";
 //DAO = Data Access Object -> Objeto de acesso aos dados
-export default class CategoriaDAO{
+export default class OrganizadorDAO{
 
     constructor() {
         this.init();
@@ -12,10 +12,10 @@ export default class CategoriaDAO{
         {
             const conexao = await conectar(); //retorna uma conexão
             const sql = `
-                CREATE TABLE IF NOT EXISTS categoria(
-                    cat_codigo INT NOT NULL AUTO_INCREMENT,
-                    cat_descricao VARCHAR(100) NOT NULL,
-                    CONSTRAINT pk_categoria PRIMARY KEY(cat_codigo)
+                CREATE TABLE IF NOT EXISTS organizador(
+                    org_codigo INT NOT NULL AUTO_INCREMENT,
+                    org_nome VARCHAR(100) NOT NULL,
+                    CONSTRAINT pk_organizador PRIMARY KEY(org_codigo)
                 );`;
             await conexao.execute(sql);
             await conexao.release();
@@ -24,31 +24,31 @@ export default class CategoriaDAO{
             console.log("Não foi possível iniciar o banco de dados: " + e.message);
         }
     }
-    async gravar(categoria){
-        if (categoria instanceof Categoria){
-            const sql = "INSERT INTO categoria(cat_descricao) VALUES(?)"; 
-            const parametros = [categoria.descricao];
+    async gravar(organizador){
+        if (organizador instanceof Organizador){
+            const sql = "INSERT INTO organizador(org_nome) VALUES(?)"; 
+            const parametros = [organizador.nome];
             const conexao = await conectar(); //retorna uma conexão
             const retorno = await conexao.execute(sql,parametros); //prepara a sql e depois executa
-            categoria.codigo = retorno[0].insertId;
+            organizador.codigo = retorno[0].insertId;
             global.poolConexoes.releaseConnection(conexao);
         }
     }
 
-    async atualizar(categoria){
-        if (categoria instanceof Categoria){
-            const sql = "UPDATE categoria SET cat_descricao = ? WHERE cat_codigo = ?"; 
-            const parametros = [categoria.descricao, categoria.codigo];
+    async atualizar(organizador){
+        if (organizador instanceof Organizador){
+            const sql = "UPDATE organizador SET org_nome = ? WHERE org_codigo = ?"; 
+            const parametros = [organizador.nome, organizador.codigo];
             const conexao = await conectar(); //retorna uma conexão
             await conexao.execute(sql,parametros); //prepara a sql e depois executa
             global.poolConexoes.releaseConnection(conexao);
         }
     }
 
-    async excluir(categoria){
-        if (categoria instanceof Categoria){
-            const sql = "DELETE FROM categoria WHERE cat_codigo = ?"; 
-            const parametros = [categoria.codigo];
+    async excluir(organizador){
+        if (organizador instanceof Organizador){
+            const sql = "DELETE FROM organizador WHERE org_codigo = ?"; 
+            const parametros = [organizador.codigo];
             const conexao = await conectar(); //retorna uma conexão
             await conexao.execute(sql,parametros); //prepara a sql e depois executa
             global.poolConexoes.releaseConnection(conexao);
@@ -61,7 +61,7 @@ export default class CategoriaDAO{
         //é um número inteiro?
         if (!isNaN(parseInt(parametroConsulta))){
             //consultar pelo código da categoria
-            sql='SELECT * FROM categoria WHERE cat_codigo = ? order by cat_descricao';
+            sql='SELECT * FROM organizador WHERE org_codigo = ? order by org_nome';
             parametros = [parametroConsulta];
         }
         else{
@@ -69,16 +69,16 @@ export default class CategoriaDAO{
             if (!parametroConsulta){
                 parametroConsulta = '';
             }
-            sql = "SELECT * FROM categoria WHERE cat_descricao like ?";
+            sql = "SELECT * FROM organizador WHERE org_nome like ?";
             parametros = ['%'+parametroConsulta+'%'];
         }
         const conexao = await conectar();
         const [registros, campos] = await conexao.execute(sql,parametros);
-        let listaCategorias = [];
+        let listaOrganizadores = [];
         for (const registro of registros){
-            const categoria = new Categoria(registro.cat_codigo,registro.cat_descricao);
-            listaCategorias.push(categoria);
+            const organizador = new Organizador(registro.org_codigo,registro.org_nome);
+            listaOrganizadores.push(organizador);
         }
-        return listaCategorias;
+        return listaOrganizadores;
     }
 }

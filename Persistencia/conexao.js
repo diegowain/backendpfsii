@@ -9,7 +9,7 @@ export default async function conectar(){
             host: 'localhost',
             user: 'root', //jamais faça isso
             password:'',  //never, nunca, jamais
-            database: 'sistema',
+            database: 'atividade',
             waitForConnections: true,
             connectionLimit: 10,
             maxIdle: 10, // max idle connections, the default value is the same as `connectionLimit`

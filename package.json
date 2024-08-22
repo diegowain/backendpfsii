@@ -1,18 +1,26 @@
 {
-  "name": "backend",
+  "name": "pfsii",
   "version": "1.0.0",
-  "description": "Backend PFSII",
+  "description": " PFSII_MOD2",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Renato Gonçalves",
+  "author": "Diego Wain",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.18.2",
+    "express": "^4.19.2",
     "mysql2": "^3.9.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diegowain/backendpfsii.git"
+  },
+  "bugs": {
+    "url": "https://github.com/diegowain/backendpfsii/issues"
+  },
+  "homepage": "https://github.com/diegowain/backendpfsii#readme"
 }
