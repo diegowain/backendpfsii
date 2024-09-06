@@ -1,3 +1,4 @@
+
 import EventoDAO from "../Persistencia/Evento.js";
 
 export default class Evento{
@@ -9,8 +10,7 @@ export default class Evento{
     #capacidade;
 
 
-    constructor(codigo=0,titulo=""
-                ){
+    constructor(codigo=0, titulo, local, data, hora, capacidade){
         this.#codigo=codigo;
         this.#titulo=titulo;
         this.#local=local;
@@ -69,12 +69,12 @@ export default class Evento{
 
     toJSON(){
         return {
-            codigo:this.#codigo,
-            titulo:this.#titulo,
-            local:this.#local,
-            data:this.#data,
-            hora:this.#hora,
-            capacidade:this.#capacidade,
+            'codigo':this.#codigo,
+            'titulo':this.#titulo,
+            'local':this.#local,
+            'data':this.#data,
+            'hora':this.#hora,
+            'capacidade':this.#capacidade,
         }
     }
 
