@@ -1,4 +1,4 @@
-import OrganizadorDAO from "../Persistencia/Organizador.js";
+import OrganizadorDAO from "../Persistencia/OrganizadorDAO.js";
 //não esqueça do .js no final da importação
 
 export default class Organizador {
